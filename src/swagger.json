@@ -68,7 +68,7 @@
           },
 
           "401": {
-            "description": "Usuario ja existente"
+            "description": "Usuario existente"
           }
         }
       }

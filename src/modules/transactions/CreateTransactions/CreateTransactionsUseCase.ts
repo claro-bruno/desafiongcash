@@ -10,7 +10,6 @@ interface ICreateTransaction {
 
 export class CreateTransactionsUseCase {
   async execute({ id, accountId, username, valor }: ICreateTransaction) {
-    console.log(id, accountId);
     if (id != accountId || +valor <= 0) {
       throw new AppError("Operação não permitida");
     }
@@ -52,7 +51,7 @@ export class CreateTransactionsUseCase {
       },
     });
 
-    if (!accountDestinoExist) {
+    if (!accountDestinoExist || accountDestinoExist.accountId == accountId) {
       throw new AppError("Operação não permitida");
     }
 

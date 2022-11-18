@@ -1,18 +1,19 @@
 import { prisma } from "../../../database/prismaClient";
-import { compare } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { AppError } from "../../../middlewares/AppError";
 
 import { getFileContent } from "../../../middlewares/getFileContent";
 
-interface IAuthenticateClient {
+export interface IAuthenticateUser {
   username: string;
   password: string;
 }
 
 export class AuthenticateUserUseCase {
-  async execute({ username, password }: IAuthenticateClient) {
+  async execute({ username, password }: IAuthenticateUser) {
     const secret = getFileContent("jwt.evaluation.key");
+
     const userExists = await prisma.users.findFirst({
       where: {
         username,
@@ -22,6 +23,9 @@ export class AuthenticateUserUseCase {
     if (!userExists) {
       throw new AppError("Username or Password invalid!");
     }
+
+    const hashPassword = await hash(password, 10);
+    console.log(hashPassword, userExists.password);
     const passwordMatch = await compare(password, userExists.password);
 
     if (!passwordMatch) {

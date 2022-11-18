@@ -7,7 +7,7 @@ const secret = getFileContent("jwt.evaluation.key");
 
 interface IPayLoad {
   accountId: string;
-  username: number;
+  username: string;
 }
 
 export async function ensureAuthenticate(

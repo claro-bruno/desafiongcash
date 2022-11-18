@@ -27,7 +27,7 @@ export class CreateUserUseCase {
     });
 
     if (userExists) {
-      throw new AppError("Usuario ja existente", 401);
+      throw new AppError("Usuario existente", 401);
     }
 
     const account_user = await prisma.accounts.create({
