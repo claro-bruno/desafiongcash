@@ -12,6 +12,10 @@ export interface IAuthenticateUser {
 
 export class AuthenticateUserUseCase {
   async execute({ username, password }: IAuthenticateUser) {
+    if (username == "" || password == "") {
+      throw new AppError("Username or Password invalid!");
+    }
+
     const secret = getFileContent("jwt.evaluation.key");
 
     const userExists = await prisma.users.findFirst({
@@ -23,9 +27,6 @@ export class AuthenticateUserUseCase {
     if (!userExists) {
       throw new AppError("Username or Password invalid!");
     }
-
-    const hashPassword = await hash(password, 10);
-    console.log(hashPassword, userExists.password);
     const passwordMatch = await compare(password, userExists.password);
 
     if (!passwordMatch) {
@@ -34,6 +35,6 @@ export class AuthenticateUserUseCase {
 
     const { accountId } = userExists;
     const token = sign({ accountId, username }, secret, { expiresIn: "24h" });
-    return token;
+    return { token: token, accountId: accountId, username: username };
   }
 }

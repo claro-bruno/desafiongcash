@@ -1,33 +1,15 @@
+# Set the version of docker compose to use
 version: "3.9"
 
+# The containers that compose the project
 services:
-  database:
-    image: postgres
-    container_name: database_desafio
+  db:
+    image: postgres:14
     restart: always
+    container_name: integration-tests-prisma
     ports:
-      - 5433:5433
+      - "5433:5433"
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=bankdb
-    volumes:
-      - pgdata:/data/postgres
-
-  app:
-    build: .
-    container_name: dbapp
-    restart: always
-    ports:
-      - 3333:3333
-      - 9229:9229
-    volumes:
-      - .:/usr/app
-    links:
-      - database
-    depends_on:
-      - database
-
-volumes:
-  pgdata:
-    driver: local
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+      POSTGRES_DB: tests

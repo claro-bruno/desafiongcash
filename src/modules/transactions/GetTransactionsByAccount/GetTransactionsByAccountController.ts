@@ -3,12 +3,14 @@ import { GetTransactionsByAccountUseCase } from "./GetTransactionsByAccountUseCa
 
 export class GetTransactionsByAccountController {
   async handle(request: Request, response: Response) {
-    const { id } = request.params;
-    const { filter } = request.body;
-    const getTransactionsByAccountUseCase =
-      new GetTransactionsByAccountUseCase();
-    const result = await getTransactionsByAccountUseCase.execute(id, filter);
+    const { id, filter = '' } = request.query;
+    if(id){
+      const getTransactionsByAccountUseCase = new GetTransactionsByAccountUseCase();
+      const result = await getTransactionsByAccountUseCase.execute({ id: id.toString(), filter: filter?.toString() });
+      return response.json({ transactions: result });
+    }
+    
 
-    return response.json({ transactions: result });
+    
   }
 }

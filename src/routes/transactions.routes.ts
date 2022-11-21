@@ -12,7 +12,7 @@ const getTransactionsByAccountController =
 const createTransactionsController = new CreateTransactionsController();
 
 transactionsRoutes.get(
-  "/:id",
+  "/",
   use(ensureAuthenticate),
   use(getTransactionsByAccountController.handle)
 );

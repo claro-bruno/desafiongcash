@@ -105,6 +105,12 @@
                   "properties": {
                     "token": {
                       "type": "string"
+                    },
+                    "accountId": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
                     }
                   }
                 }
@@ -164,20 +170,26 @@
         "tags": ["Transaction"],
         "summary": "Get All Transactions",
         "description": "Get All Transactions",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "filter": {
-                    "type": "string"
-                  }
-                }
-              }
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Account id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "path",
+            "description": "Filter",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Success",

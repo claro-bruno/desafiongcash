@@ -1,13 +1,13 @@
 import { prisma } from "../../../database/prismaClient";
 import { AppError } from "../../../middlewares/AppError";
 
-export interface IRequest {
+export interface IBalanceRequest {
   id: string;
   accountId: string;
 }
 
 export class GetAccountBalanceUseCase {
-  public async execute({ id, accountId }: IRequest) {
+  public async execute({ id, accountId }: IBalanceRequest) {
     if (accountId != id) {
       throw new AppError("Operação não permitida");
     }
@@ -16,6 +16,10 @@ export class GetAccountBalanceUseCase {
         id,
       },
     });
+
+    if (!accountExist) {
+      throw new AppError("Operação não permitida");
+    }
 
     return accountExist;
   }

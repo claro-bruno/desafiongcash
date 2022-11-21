@@ -1,7 +1,7 @@
 import { prisma } from "../../../database/prismaClient";
 import { AppError } from "../../../middlewares/AppError";
 
-interface ICreateTransaction {
+export interface ICreateTransaction {
   id: string;
   username: string;
   valor: number;

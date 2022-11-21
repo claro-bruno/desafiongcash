@@ -10,6 +10,6 @@ export class AuthenticateUserController {
       password,
     });
 
-    return response.json({ token: result });
+    return response.json(result);
   }
 }
